@@ -40,7 +40,7 @@
         }
 
 
-
+        //Shipment Class(Parent Class)
         public class Shipment
         {
             string trackingCode;
@@ -137,7 +137,7 @@
                     destination = value;
                 }
             }
-            public decimal EstimatedCost
+            public virtual decimal EstimatedCost
             {
                 get
                 {
@@ -180,14 +180,109 @@
             public string PrintShipmentDetails()
             {
                 return $"Tracking Code:\n{TrackingCode}\nDescription:\n{Description}\nWeight:\n{Weight}kg\nDelivery Fee:\n{deliveryFee}\nEstimated Cost:\n{EstimatedCost}";
+        }
+    }
+    //Standard Shipment Class(Child Class)
+    public class StandardShipment : Shipment
+    {
+        //Chaining Constructor
+        public StandardShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee) : base(TrackingCode, Description, Weight, DeliveryFee)
+        {
+        }
+    }
+    //Express Shipment Class(Child Class)
+    public class ExpressShipment : Shipment
+    {
+        decimal extrafee;
+        //ExtraFee Property
+        public decimal ExtraFee
+        {
+            get
+            {
+                return extrafee;
+            }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Extra fee must be greater than or equal to 0");
+                else
+                    extrafee = value;
+            }
+        }
+        //Override Estimated cost property
+        public override decimal EstimatedCost
+        { 
+            get
+            {
+                return base.EstimatedCost + extrafee;
+            }
+            
+        }
+        public ExpressShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee,decimal extrafee) : base(TrackingCode, Description, Weight, DeliveryFee)
+        {
+            this.ExtraFee = extrafee;
+        }
+    }
+    //International Shipment Class(parent class)
+    public class InternationalShipment : Shipment
+    {
+        string destinationcountry;
+        decimal customsfee;
+        //Destination Country property
+        public string DestinationCountry
+        {
+            get
+            {
+                return destinationcountry;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Description cannot be null or empty.");
+                }
+                else
+                {
+                    destinationcountry = value;
+                }
+
+
+            }
+        }
+        //Customs Fee property
+        public decimal CustomsFee
+        {
+            get
+            {
+                return customsfee;
+            }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Extra fee must be greater than or equal to 0");
+                else
+                    customsfee = value;
+            }
+        }
+        //Override Estimated cost property
+        public override decimal EstimatedCost
+        {
+            get
+            {
+                return base.EstimatedCost + customsfee;
             }
 
-
-
-
         }
-        //Delivery Center Struct
-        public class DeliveryCenter
+        //Constructor chaining
+        public InternationalShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee, decimal customsfee,string destinationcountry) : base(TrackingCode, Description, Weight, DeliveryFee)
+        {
+            this.CustomsFee = customsfee;
+            this.DestinationCountry = destinationcountry;
+        }
+    }
+
+    //Delivery Center Class
+    public class DeliveryCenter
         {
             Shipment[] shipment;
             public DeliveryCenter()
