@@ -1,6 +1,19 @@
 ﻿namespace OOP_2
 {
-   
+    //Part1: Theoritical
+    //Question1:
+    //a)Class is a reference type while struct is a value type
+    //Class is stored in heap while struct is stored in stack
+    //Class support Inheritance while struct doesn't
+    //Class provides parameterless constructor if none defined while struct always provide it
+    //Class can be null while struct can't
+    //Class is best for complex data with behaviour,inheritance,shared state while struct is best for small,simple data,better performance
+    //b)Classes work best for large applications as they avoid unecessary copying,work better with shared objects
+    //Question2:
+    //a)Shipment
+    //b)ExpressShipment
+    //c)Shipment members which is a property here(TrackingCode)
+    //d)Saving code memory
         public struct DeliveryAddress
         {
             string City;
@@ -28,7 +41,7 @@
 
 
 
-        public struct Shipment
+        public class Shipment
         {
             string trackingCode;
             string description;
@@ -174,7 +187,7 @@
 
         }
         //Delivery Center Struct
-        public struct DeliveryCenter
+        public class DeliveryCenter
         {
             Shipment[] shipment;
             public DeliveryCenter()
